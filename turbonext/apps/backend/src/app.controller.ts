@@ -1,6 +1,8 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { createUserSchema } from '@repo/types';
+import type { CreateUserDto } from '@repo/types';
+import { Body, Controller, Get, Post, UsePipes } from '@nestjs/common';
 import { AppService } from './app.service';
-import { CreateUserDto } from '@repo/types';
+import { ZodValidationPipe } from './zod/zod-schema';
 
 @Controller()
 export class AppController {
@@ -10,8 +12,9 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
-  @Post()
-  async createUser(@Body() createUserDto: CreateUserDto) {
+@Post()
+@UsePipes(new ZodValidationPipe(createUserSchema))
+  create(@Body() createUserDto: CreateUserDto) {
     console.log(createUserDto);
   }
 }
