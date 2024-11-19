@@ -17,4 +17,8 @@ export class AppController {
   create(@Body() createUserDto: CreateUserDto) {
     console.log(createUserDto);
   }
+  @Get()
+  async getUsers(){
+  return this.appService.getUsers();
+  }
 }
